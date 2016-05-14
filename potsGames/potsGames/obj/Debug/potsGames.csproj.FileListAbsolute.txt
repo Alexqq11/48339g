@@ -1,0 +1,10 @@
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\bin\Debug\potsGames.exe.config
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.csprojResolveAssemblyReference.cache
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.Properties.Resources.resources
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.csproj.GenerateResource.Cache
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.Form1.resources
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.Resource1.resources
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\bin\Debug\potsGames.exe
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\bin\Debug\potsGames.pdb
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.exe
+c:\users\ux32la\documents\visual studio 2012\Projects\potsGames\potsGames\obj\Debug\potsGames.pdb
