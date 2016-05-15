@@ -15,18 +15,20 @@ using System.Media;
 namespace potsGames
 {	
 
-	public class Pipe {
-		//{ TopWidth = value; Propities[0] = value; }
+	public class PipeGeometry {
 		private bool exist = false;
 		
-		private int _TopWidth;
+		private int _TopX; // X COORDINATE OF PIPE TOP
 		private int _TopLength;
-		private int _BottomWidth;
+		private int _BottomX; // X CORDINATE OF PIPE BOTTOM
 		private int _BottomLength;
+		public int PipeWidth { get; set;}
+		public int DistanceBetweenPipes { get; set; }
+		public int WindowHeigh { get; set; }
 
-		public int TopWidth { get { return _TopWidth; } set { _TopWidth = value; PropitiesInit(); Propities[0] = value; } }
+		public int TopX { get { return _TopX; } set { _TopX = value; PropitiesInit(); Propities[0] = value; } }
 		public int TopLength { get { return _TopLength; } set { _TopLength = value; PropitiesInit(); Propities[1] = value; } }
-		public int BottomWidth { get { return _BottomWidth; } set { _BottomWidth = value; PropitiesInit(); Propities[2] = value; } }
+		public int BottomX { get { return _BottomX; } set { _BottomX = value; PropitiesInit(); Propities[2] = value; } }
 		public int BottomLength { get { return _BottomLength; } set { _BottomLength = value; PropitiesInit(); Propities[3] = value; } }
 		private List<int> Propities;// /{ get; set;}
 		// сильно зависим от параметров окна //
@@ -38,18 +40,31 @@ namespace potsGames
 			exist = true;
 		}
 
-		public Pipe (int windowHeight , int windowWidth, int distanceBetweenPipes) // To do make normal params to generate pipe 
+		public PipeGeometry (int windowHeight , int windowWidth, int pipeWidth, int distanceBetweenPipes) // To do make normal params to generate pipe 
 		{
 			PropitiesInit();
 			Random random = new Random();
-			_TopWidth = windowWidth;
+			_TopX = windowWidth;//sreen possition
 			_TopLength = random.Next(40, (windowHeight - distanceBetweenPipes)); // refact 40 to pipe length min
-			_BottomWidth = windowWidth;
-			_BottomLength = TopLength + distanceBetweenPipes;
-			Propities[0] = _TopWidth;
+			_BottomX = windowWidth;//screen posirion
+			_BottomLength = _TopLength + distanceBetweenPipes;
+			Propities[0] = _TopX;
 			Propities[1] = _TopLength;
-			Propities[2] = _BottomWidth;
+			Propities[2] = _BottomX;
 			Propities[3] = _BottomLength;
+			PipeWidth = pipeWidth;
+			DistanceBetweenPipes = distanceBetweenPipes;
+			WindowHeigh = windowHeight;
+		}
+
+		public void DrawPipe(PaintEventArgs e)
+{
+				// Первый верхний
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX, 0, PipeWidth, TopLength));
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX - 10, BottomLength - DistanceBetweenPipes, PipeWidth + 20, 15)); // потом надо реализовать масштабирование
+				// первый нижний
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX, BottomLength, PipeWidth, WindowHeigh - BottomLength));
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX - 10, BottomLength, PipeWidth + 20, 15));
 		}
 
 		public bool Any()
@@ -66,13 +81,13 @@ namespace potsGames
 				switch (i)
 				{
 					case 0 :
-						_TopWidth = value;
+						_TopX = value;
 						break;
 					case 1 :
 						_TopLength = value;
 						break;
 					case 2 :
-						_BottomWidth = value;
+						_BottomX = value;
 						break;
 					case 3 :
 						_BottomLength = value;
@@ -81,6 +96,8 @@ namespace potsGames
 				}
 			}
 		}
+
+
 		
 	}
 
@@ -96,9 +113,8 @@ namespace potsGames
 	}*/
 	public partial class GameForm
 	{
-		Pipe FirstPipe;
-		Pipe SecondPipe;
-		//List<int> SecondPipe = new List<int>();
+		PipeGeometry FirstPipe;
+		PipeGeometry SecondPipe;
 		int PipeWidth = 55;
 		int PipeDifferentY = 140;
 		int PipeDifferentX = 180;
@@ -120,7 +136,7 @@ namespace potsGames
 			points = 0;
 			mainBird.Location = new Point(Originalx, Originaly);
 			ResetPipes = true;
-			//FirstPipe.Clear();
+			FirstPipe = null;
 		}
 
 		private void StartGame()
@@ -129,29 +145,9 @@ namespace potsGames
 			timer1.Enabled = true;
 			timer2.Enabled = true;
 			timer3.Enabled = true;
-			//Random random = new Random();
-			//int num = random.Next(40, Height - PipeDifferentY);
-			//int num1 = num + PipeDifferentY;
-	
-			//Console.WriteLine("num : {0} , num1 : {1} , Height : {2}, H - pdf :  {3}; width : {4}", num, num1, Height, Height - PipeDifferentY, Width);
-			//Console.WriteLine("num : {0} , num1 : {1} , Height : {2}, H - pdf :  {3}", num, num1, Height, Height - PipeDifferentY);
 			
-			
-			//FirstPipe.Clear();
-			//FirstPipe.Add(Width);
-			//FirstPipe.Add(num);
-			//FirstPipe.Add(Width);
-			//FirstPipe.Add(num1);
-			
-			//num = random.Next(40, (Height - PipeDifferentY));
-			//num1 = num + PipeDifferentY;
-			//SecondPipe.Clear();
-			//SecondPipe.Add(Width + PipeDifferentX);
-			//SecondPipe.Add(num);
-			//SecondPipe.Add(Width + PipeDifferentX);
-			//SecondPipe.Add(num1);
-			FirstPipe = new Pipe(Height, Width , PipeDifferentY);
-			SecondPipe = new Pipe(Height, Width + PipeDifferentX, PipeDifferentY);
+			FirstPipe = new PipeGeometry(Height, Width ,PipeWidth, PipeDifferentY);
+			SecondPipe = new PipeGeometry(Height, Width + PipeDifferentX,PipeWidth, PipeDifferentY);
 			button2.Visible = false;
 			button2.Enabled = false;
 			Running = true;
@@ -161,23 +157,8 @@ namespace potsGames
 		{
 			if (FirstPipe[0] + PipeWidth <= 0 | Start == true)
 			{
-				/*Random rnd = new Random();
-				int px = this.Width;
-				int py = rnd.Next(40, (this.Height - PipeDifferentY));
-
-				var p2y = py + PipeDifferentY;
-
-				Console.WriteLine("num : {0} , num1 : {1} , Height : {2}, H - pdf :  {3}", py, p2y, Height, Height - PipeDifferentY);
-				
-				
-				var p2x = px;
-				
-				FirstPipe.Clear();
-				FirstPipe.Add(px);
-				FirstPipe.Add(py);
-				FirstPipe.Add(p2x);
-				FirstPipe.Add(p2y);*/
-				FirstPipe = new Pipe(Height, Width, PipeDifferentY);
+			
+				FirstPipe = new PipeGeometry(Height, Width, PipeWidth , PipeDifferentY);
 			}
 			else
 			{
@@ -186,19 +167,7 @@ namespace potsGames
 			}
 			if (SecondPipe[0] + PipeWidth <= 0)
 			{
-				/*Random rnd = new Random();
-				int px = this.Width;
-				int py = rnd.Next(40, (this.Height - PipeDifferentY));
-				var p2x = px;
-				var p2y = py + PipeDifferentY;
-				Console.WriteLine("num : {0} , num1 : {1} , Height : {2}, H - pdf :  {3}", py, p2y, Height, Height - PipeDifferentY);
-				int[] p1 = { px, py, p2x, p2y };
-				SecondPipe.Clear();
-				SecondPipe.Add(px);
-				SecondPipe.Add(py);
-				SecondPipe.Add(p2x);
-				SecondPipe.Add(p2y);*/
-				SecondPipe = new Pipe(Height, Width, PipeDifferentY);
+				SecondPipe = new PipeGeometry(Height, Width, PipeWidth, PipeDifferentY);
 			}
 			else
 			{
@@ -263,18 +232,8 @@ namespace potsGames
 		{
 			if (!ResetPipes && FirstPipe != null &&  SecondPipe != null && FirstPipe.Any() && SecondPipe.Any())
 			{
-				// Первый верхний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(FirstPipe[0], 0, PipeWidth, FirstPipe[1]));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(FirstPipe[0] - 10, FirstPipe[3] - PipeDifferentY, 75, 15));
-				// первый нижний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(FirstPipe[2], FirstPipe[3], PipeWidth, this.Height - FirstPipe[3]));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(FirstPipe[2] - 10, FirstPipe[3], 75, 15));
-				// второй верхний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(SecondPipe[0], 0, PipeWidth, SecondPipe[1]));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(SecondPipe[0] - 10, SecondPipe[3] - PipeDifferentY, 75, 15));
-				// втрой нижний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(SecondPipe[2], SecondPipe[3], PipeWidth, this.Height - SecondPipe[3]));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(SecondPipe[2] - 10, SecondPipe[3], 75, 15));
+				FirstPipe.DrawPipe(e);
+				SecondPipe.DrawPipe(e);
 
 			}
 
