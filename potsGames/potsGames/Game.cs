@@ -15,16 +15,16 @@ using System.Media;
 namespace potsGames
 {	
 
-	public class PipeGeometry {
+	public class Obstacle {
 		private bool exist = false;
 		
 		private int _TopX; // X COORDINATE OF PIPE TOP
 		private int _TopLength;
 		private int _BottomX; // X CORDINATE OF PIPE BOTTOM
 		private int _BottomLength;
-		public int PipeWidth { get; set;}
-		public int DistanceBetweenPipes { get; set; }
-		public int WindowHeigh { get; set; }
+		public int ObstacleWidth { get; set;}
+		public int ObstacleVerticalInterval { get; set; }
+		public int WindowHeight { get; set; }
 
 		public int TopX { get { return _TopX; } set { _TopX = value; PropitiesInit(); Propities[0] = value; } }
 		public int TopLength { get { return _TopLength; } set { _TopLength = value; PropitiesInit(); Propities[1] = value; } }
@@ -40,7 +40,7 @@ namespace potsGames
 			exist = true;
 		}
 
-		public PipeGeometry (int windowHeight , int windowWidth, int pipeWidth, int distanceBetweenPipes) // To do make normal params to generate pipe 
+		public Obstacle (int windowHeight , int windowWidth, int pipeWidth, int distanceBetweenPipes) // To do make normal params to generate pipe 
 		{
 			PropitiesInit();
 			Random random = new Random();
@@ -52,20 +52,21 @@ namespace potsGames
 			Propities[1] = _TopLength;
 			Propities[2] = _BottomX;
 			Propities[3] = _BottomLength;
-			PipeWidth = pipeWidth;
-			DistanceBetweenPipes = distanceBetweenPipes;
-			WindowHeigh = windowHeight;
+			ObstacleWidth = pipeWidth;
+			ObstacleVerticalInterval = distanceBetweenPipes;
+			WindowHeight = windowHeight;
 		}
 
 		public void DrawPipe(PaintEventArgs e)
 {
 				// Первый верхний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX, 0, PipeWidth, TopLength));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX - 10, BottomLength - DistanceBetweenPipes, PipeWidth + 20, 15)); // потом надо реализовать масштабирование
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX, 0, ObstacleWidth, TopLength));
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(TopX - 10, BottomLength - ObstacleVerticalInterval, ObstacleWidth + 20, 15)); // потом надо реализовать масштабирование
 				// первый нижний
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX, BottomLength, PipeWidth, WindowHeigh - BottomLength));
-				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX - 10, BottomLength, PipeWidth + 20, 15));
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX, BottomLength, ObstacleWidth, WindowHeight - BottomLength));
+				e.Graphics.FillRectangle(Brushes.DarkGreen, new Rectangle(BottomX - 10, BottomLength, ObstacleWidth + 20, 15));
 		}
+		
 
 		public bool Any()
 		{
@@ -100,65 +101,198 @@ namespace potsGames
 
 		
 	}
-
-	/*public class Pipes {
-		List<int> FirstPipe = new List<int>();
-		List<int> SecondPipe = new List<int>();
-		int PipeWidth {get; set; }         //= 55;
-		int PipeDifferentY {get; set; }    //= 140;
-		int PipeDifferentX { get; set; }   //= 180;
-		
-		public void SetPipes
 	
-	}*/
+	public class ObstaclesMap {
+		
+		int ObstacleWidth {get; set; }         //= 55;
+		int ObstacleVerticalInterval {get; set; }    //= 140;
+		int ObstaclesHorizontInterval { get; set; }
+		public int Count {get;  set;} //= 180;
+		int WindowWidth {get; set;}
+		int WindowHeight {get; set;}
+		int Speed { get; set; }
+
+		public List<Obstacle> LevelObstacles { get; set; }
+		public ObstaclesMap(int windowHeight, int windowWidth , int obstracleWidth, int horizontInterval, int verticalInterval)
+		{
+			WindowHeight = windowHeight;
+			WindowWidth  = windowWidth;
+			Count = (windowWidth - obstracleWidth *( windowWidth / horizontInterval)) / horizontInterval + 2; // in the future write normal stabilization
+			ObstacleWidth = obstracleWidth;
+			ObstaclesHorizontInterval = horizontInterval;
+			ObstacleVerticalInterval = verticalInterval;
+			MakeObstacles();
+		}
+		private void MakeObstacles()//(int windowHeight, int windowWidth, int amount, int obstacleWidth, int horizontInterval, int distanseBetween)
+		{
+			/*Count = amount;
+			WindowHeight = windowHeight;
+			WindowWidth = windowWidth;
+			ObstacleWidth = obstacleWidth;
+			ObstacleVerticalInterval = distanseBetween;
+			ObstaclesHorizontInterval = horizontInterval;*/
+	
+			LevelObstacles = new List<Obstacle>();
+
+			for (var i = 0; i < Count; i++)
+			{
+				LevelObstacles.Add(new Obstacle(WindowHeight, WindowWidth + i * ObstaclesHorizontInterval, ObstacleWidth, ObstacleVerticalInterval));
+			} 
+		}
+
+		public Obstacle this[int i] // write exception
+		{
+			get{return LevelObstacles[i];}
+			set{ LevelObstacles[i] = value ;}
+		}
+	}
+
+
+	public class Player
+	{
+		public bool Alive {get; set;}
+		public Point StartLocation {get; set;}
+		public int SpeedY {get; set;}
+		public int SpeedX { get; set;}
+		public bool inPointZone {get; set;}
+		public Player(int speedX, int speedY, Point startLocation)
+		{
+			Alive = true;
+			SpeedX = speedX;
+			SpeedY = speedY;
+			inPointZone = false;
+			StartLocation = startLocation;
+
+		}
+		
+	}
+	
 	public partial class GameForm
 	{
-		PipeGeometry FirstPipe;
-		PipeGeometry SecondPipe;
+
+		Obstacle FirstPipe;
+		Obstacle SecondPipe;
+		ObstaclesMap Pipes;
+		Player Pots;
+		int Step = 5 ;
 		int PipeWidth = 55;
 		int PipeDifferentY = 140;
 		int PipeDifferentX = 180;
+		//Obstacles Pipes;
 		bool Start = true;
-		bool Running;
-		int Step = 5;
 		int Originalx, Originaly;
-		bool ResetPipes = false;
 		int points;
-		bool inPipe = false;
+		//bool Pots.inPointZone = false;
 
-		private void Die()
+/*	public void oInitialPipes()
 		{
-			Running = false;
-			timer2.Enabled = false;
-			timer3.Enabled = false;
-			button2.Visible = true;
-			button2.Enabled = true;
-			points = 0;
-			mainBird.Location = new Point(Originalx, Originaly);
-			ResetPipes = true;
-			FirstPipe = null;
+			if(Pipes != null) 
+			for (int i = 0; i < Pipes.Count; i++)
+			{
+				var pipe = Pipes[i];
+				if (pipe[0] + PipeWidth <= 0)
+					Pipes[i] = new Obstacle(Height, Width, PipeWidth, PipeDifferentY);
+				else
+				{
+
+					Pipes[i][0] = Pipes[i][0] - Pots.SpeedX; // in future make a nomal interface of class
+					Pipes[i][0] = Pipes[i][0] - Pots.SpeedX;
+				}
+			}
 		}
-
-		private void StartGame()
+		public void preCheck()
 		{
-			ResetPipes = false;
-			timer1.Enabled = true;
-			timer2.Enabled = true;
-			timer3.Enabled = true;
+			if (Pipes != null)
+			for (var i = 0; i < Pipes.Count; i++)
+			{
+				if (Pipes[i][0] < 2 * PipeDifferentX) // attention
+				{
+					oCheckForCollision(Pipes[i]);
+				}
+			}
+		}
+		public void DrawSearchzone(PaintEventArgs e)
+		{
+			if (Pipes != null)
+				for (var i = 0; i < Pipes.Count; i++)
+				{
+					if (Pipes[i][0] < 2 * PipeDifferentX) // attention
+					{
+						var obstacle  =  Pipes[i];
+									Rectangle playerLocation = mainBird.Bounds;
+			Rectangle topCollisionZone = new Rectangle(obstacle[0], 0, obstacle.ObstacleWidth, obstacle.ObstacleVerticalInterval);
+									Rectangle bottomCollisionZone = new Rectangle(obstacle[2], obstacle[3], obstacle.ObstacleWidth, obstacle.WindowHeight - obstacle[3]);
+									Rectangle topZoneIntersection = Rectangle.Intersect(playerLocation, topCollisionZone);
+									Rectangle bottomZoneIntersection = Rectangle.Intersect(playerLocation, bottomCollisionZone);
+					
+									e.Graphics.DrawRectangle( new Pen(Brushes.DarkTurquoise, 1), topCollisionZone);
 			
-			FirstPipe = new PipeGeometry(Height, Width ,PipeWidth, PipeDifferentY);
-			SecondPipe = new PipeGeometry(Height, Width + PipeDifferentX,PipeWidth, PipeDifferentY);
-			button2.Visible = false;
-			button2.Enabled = false;
-			Running = true;
-			Focus();
+
+					}
+				}
+
 		}
+		public void oCheckForCollision(Obstacle obstacle) { 
+			Rectangle playerLocation = mainBird.Bounds;
+			Rectangle topCollisionZone = new Rectangle(obstacle[0], 0, obstacle.ObstacleWidth, obstacle.ObstacleVerticalInterval);
+			Rectangle bottomCollisionZone = new Rectangle(obstacle[2], obstacle[3], obstacle.ObstacleWidth, obstacle.WindowHeight - obstacle[3]);
+			Rectangle topZoneIntersection = Rectangle.Intersect(playerLocation, topCollisionZone);
+			Rectangle bottomZoneIntersection = Rectangle.Intersect(playerLocation, bottomCollisionZone);
+			if (topCollisionZone != Rectangle.Empty | bottomCollisionZone != Rectangle.Empty)
+			{
+					PlaySound("collision");
+					//Die();
+			}
+
+		}
+		public void PrePoint()
+		{
+			if(Pipes != null) 
+			for (var i = 0; i < Pipes.Count; i++)
+			{
+				if (Pipes[i][0] < 2 * PipeDifferentX) // attention
+				{
+					oCheckForPoint(Pipes[i]);
+				}
+			}
+		}
+		private void oCheckForPoint(Obstacle obstacle)
+		{
+			Rectangle playerLocation = mainBird.Bounds;
+			Rectangle pointZone = new Rectangle(obstacle[2] + 20, obstacle[3] - obstacle.ObstacleVerticalInterval, 15, obstacle.ObstacleVerticalInterval);
+			Rectangle pointIntersectionZone = Rectangle.Intersect(playerLocation, pointZone);
+			if (pointIntersectionZone != Rectangle.Empty)
+			{
+				if (!Pots.inPointZone)
+				{
+					points++;
+					PlaySound("point");
+					Pots.inPointZone = true;
+				}
+			}
+			else Pots.inPointZone = false;
+
+		}
+		public void DrawPipes(PaintEventArgs e)
+		{	
+			if (Pipes != null)
+			for (var i = 0; i < Pipes.Count; i++)
+			{
+				if (Pots != null && Pots.Alive && Pipes[i] != null && Pipes[i].Any())
+				{
+					Pipes[i].DrawPipe(e);
+				}
+			}
+		}
+ 
+		
+		*/
 		public void InitialPipes()
 		{
-			if (FirstPipe[0] + PipeWidth <= 0 | Start == true)
+			if (FirstPipe[0] + PipeWidth <= 0 )
 			{
-			
-				FirstPipe = new PipeGeometry(Height, Width, PipeWidth , PipeDifferentY);
+
+				FirstPipe = new Obstacle(Height, Width, PipeWidth, PipeDifferentY);
 			}
 			else
 			{
@@ -167,7 +301,7 @@ namespace potsGames
 			}
 			if (SecondPipe[0] + PipeWidth <= 0)
 			{
-				SecondPipe = new PipeGeometry(Height, Width, PipeWidth, PipeDifferentY);
+				SecondPipe = new Obstacle(Height, Width, PipeWidth, PipeDifferentY);
 			}
 			else
 			{
@@ -175,9 +309,39 @@ namespace potsGames
 				SecondPipe[2] = SecondPipe[2] - 2;
 			}
 
-			if (Start)
-				Start = false;
+			//if (Start)
+				//Start = false;
 		}
+		
+
+
+
+		private void Die()
+		{
+			Pots.Alive = false;
+			timer2.Enabled = false;
+			timer3.Enabled = false;
+			button2.Visible = true;
+			button2.Enabled = true;
+			points = 0;
+			mainBird.Location = Pots.StartLocation; 
+		}
+
+		private void StartGame()
+		{
+			Pots = new Player(1, 5, mainBird.Location);
+
+			timer1.Enabled = true;
+			timer2.Enabled = true;
+			timer3.Enabled = true;
+			Pipes = new ObstaclesMap(Height, Width, PipeWidth, PipeDifferentX, PipeDifferentY);
+			FirstPipe = new Obstacle(Height, Width ,PipeWidth, PipeDifferentY);
+			SecondPipe = new Obstacle(Height, Width + PipeDifferentX,PipeWidth, PipeDifferentY);
+			button2.Visible = false;
+			button2.Enabled = false;
+			Focus();
+		}
+
 
 		private void CheckForPoint()
 		{
@@ -186,20 +350,20 @@ namespace potsGames
 			Rectangle rec2 = new Rectangle(SecondPipe[2] + 20, SecondPipe[3] - PipeDifferentY, 15, PipeDifferentY);
 			Rectangle intersect1 = Rectangle.Intersect(rec, rec1);
 			Rectangle intersect2 = Rectangle.Intersect(rec, rec2);
-			if (!ResetPipes | Start)
+			if (Pots.Alive | Start)
 			{
 				if (intersect1 != Rectangle.Empty | intersect2 != Rectangle.Empty)
 				{
-					if (!inPipe)
+					if (!Pots.inPointZone)
 					{
 						points++;
 						PlaySound("point");
-						inPipe = true;
+						Pots.inPointZone = true;
 					}
 				}
 				else
 				{
-					inPipe = false;
+					Pots.inPointZone = false;
 				}
 			}
 		}
@@ -215,7 +379,7 @@ namespace potsGames
 			Rectangle intersect2 = Rectangle.Intersect(rec, rec2);
 			Rectangle intersect3 = Rectangle.Intersect(rec, rec3);
 			Rectangle intersect4 = Rectangle.Intersect(rec, rec4);
-			if (!ResetPipes | Start)
+			if (Pots.Alive | Start)
 				if (intersect1 != Rectangle.Empty |
 					intersect2 != Rectangle.Empty |
 					intersect3 != Rectangle.Empty |
@@ -226,11 +390,10 @@ namespace potsGames
 					Die();
 				}
 		}
-
-
+		
 		private void DrawPipes(PaintEventArgs e)
 		{
-			if (!ResetPipes && FirstPipe != null &&  SecondPipe != null && FirstPipe.Any() && SecondPipe.Any())
+			if (Pots != null && Pots.Alive && FirstPipe != null &&  SecondPipe != null && FirstPipe.Any() && SecondPipe.Any())
 			{
 				FirstPipe.DrawPipe(e);
 				SecondPipe.DrawPipe(e);
