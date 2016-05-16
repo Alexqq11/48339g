@@ -40,8 +40,7 @@ namespace potsGames
 		
 		private void timer2_Tick(object sender, EventArgs e)//ok
 		{
-			//InitialPipes();
-			oInitialPipes();
+			InitialPipes();
 		}
 		
 
@@ -72,12 +71,11 @@ namespace potsGames
 			if (mainBird.Location.Y + mainBird.Height > this.ClientSize.Height)
 				mainBird.Location = new Point(mainBird.Location.X, this.ClientSize.Height - mainBird.Height);
 
-			//CheckForCollision();
-			preCheck();
+			CollisionsChecker();
 
 			if (Pots.Alive)
-				PrePoint();
-				//CheckForPoint();
+				PointsChecker();
+
 
 
 			pointWindow.Text = Convert.ToString(points);
