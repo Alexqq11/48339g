@@ -11,9 +11,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Media;
+using potsGames.Properties;
 
 namespace potsGames
 {
+
 	public partial class GameForm : Form
 	{ 
 		public GameForm()
@@ -46,6 +48,7 @@ namespace potsGames
 
 		private void GamePainter(object sender, PaintEventArgs e)//ok painting pipes
 		{
+			//DrawTest(e);
 			DrawPipes(e);
 			DrawSearchzone(e);
 		}

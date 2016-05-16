@@ -23,10 +23,27 @@ namespace potsGames
 			sp.Play();
 		}
 
-		private System.Drawing.Bitmap GetImage(string image)
+		 private System.Drawing.Bitmap GetImage(string image)
 		{
 			return Properties.Resources.GetImage(image);
 		}
+
+
+		/* if problems - write this into resources.designer.cs
+		 *    public static System.Drawing.Bitmap GetImage(string image)
+        {
+            object obj = ResourceManager.GetObject(image, resourceCulture);
+            return ((System.Drawing.Bitmap)(obj));
+        }
+
+        public static System.IO.UnmanagedMemoryStream GetSound(string sound)
+        {
+                return ResourceManager.GetStream(sound, resourceCulture);
+        }
+		 * 
+		 * 
+		 */
+
 
 	}
 }
