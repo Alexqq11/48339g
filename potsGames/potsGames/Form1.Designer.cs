@@ -113,7 +113,7 @@
 			this.PerformLayout();
 
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
+            MaximizeBox = true;
 		}
 
 		#endregion

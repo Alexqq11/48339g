@@ -40,14 +40,15 @@ namespace potsGames
 		
 		private void timer2_Tick(object sender, EventArgs e)//ok
 		{
-			InitialPipes();
-			//oInitialPipes();
+			//InitialPipes();
+			oInitialPipes();
 		}
 		
 
 		private void GamePainter(object sender, PaintEventArgs e)//ok painting pipes
 		{
 			DrawPipes(e);
+			DrawSearchzone(e);
 		}
 
 		private void OnKeyDown(object sender, KeyEventArgs e) // ok
@@ -71,12 +72,12 @@ namespace potsGames
 			if (mainBird.Location.Y + mainBird.Height > this.ClientSize.Height)
 				mainBird.Location = new Point(mainBird.Location.X, this.ClientSize.Height - mainBird.Height);
 
-			CheckForCollision();
-			//preCheck();
+			//CheckForCollision();
+			preCheck();
 
 			if (Pots.Alive)
-				//PrePoint();
-				CheckForPoint();
+				PrePoint();
+				//CheckForPoint();
 
 
 			pointWindow.Text = Convert.ToString(points);
