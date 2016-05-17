@@ -17,7 +17,9 @@ namespace potsGames
 
 	public class Player
 	{
+		public int Gravity { get; set; }
 		public int Lives { get; set; }
+		public int Points { get; set; }
 		public int Coins { get; set; }
 		public bool Alive { get; set; }
 		public Point StartLocation { get; set; }
@@ -25,8 +27,11 @@ namespace potsGames
 		public int SpeedX { get; set; }
 		public bool inPointZone { get; set; }
 		public int Armor { get; set; }
+		public int GameSpeed { get; set; }
 		public Player(int speedX, int speedY, Point startLocation)
 		{
+			Gravity = 5;
+			GameSpeed = 5;
 			Alive = true;
 			SpeedX = speedX;
 			SpeedY = speedY;

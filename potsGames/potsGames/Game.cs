@@ -20,14 +20,12 @@ namespace potsGames
 
 		ObstaclesMap Pipes;
 		Player Pots;
-		int Step = 5 ;
-		int SpeedY;
+		int StepY = 5;
+		int StepX = 0;
 		int PipeWidth = 75;
-		int PipeDifferentY = 200;
+		int PipeDifferentY = 200; // refact this shit;
 		int PipeDifferentX = 280;
-
-		int Originalx, Originaly;
-		int points;
+		//int Pots.Points;
 		bool Pause = false;
 
 		private void Die()
@@ -37,7 +35,7 @@ namespace potsGames
 			timer3.Enabled = false;
 			button2.Visible = true;
 			button2.Enabled = true;
-			points = 0;
+			Pots.Points = 0;
 			mainBird.Location = Pots.StartLocation;
 		}
 		//private Force 
@@ -59,8 +57,8 @@ namespace potsGames
  
 		private void StartGame()
 		{
-			Pots = new Player(6, 5, mainBird.Location);
-			SpeedY = Pots.SpeedY;
+			Pots = new Player(5, 5, mainBird.Location);
+			//SpeedY = Pots.SpeedY;
 			timer1.Enabled = true;
 			timer2.Enabled = true;
 			timer3.Enabled = true;
@@ -81,14 +79,14 @@ namespace potsGames
 				}
 				else{
 
-					Pipes[i].TopX = Pipes[i].TopX - Pots.SpeedX; // in future make a nomal interface of class
-					Pipes[i].BottomX = Pipes[i].BottomX - Pots.SpeedX;
-					SpeedY = Pots.SpeedY;
+					Pipes[i].TopX = Pipes[i].TopX - Pots.GameSpeed; // in future make a nomal interface of class
+					Pipes[i].BottomX = Pipes[i].BottomX - Pots.GameSpeed;
+					//SpeedY = Pots.SpeedY;
 					
 			}}
 				for (int i = 0; i < 20; i++)
 				{
-					Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.SpeedX;
+					Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.GameSpeed;
 				}
 			}
 		}
@@ -205,7 +203,7 @@ namespace potsGames
 			{
 				if (!Pots.inPointZone)
 				{
-					points++;
+					Pots.Points++;
 					PlaySound("point");
 					Pots.inPointZone = true;
 				}

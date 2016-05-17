@@ -26,8 +26,7 @@ namespace potsGames
 		private void InitPosition(object sender, EventArgs e)
 		
 		{
-			Originalx = mainBird.Location.X;
-			Originaly = mainBird.Location.Y;
+
 		}
 
 		private void GameStarter(object sender, EventArgs e)//ok
@@ -57,20 +56,37 @@ namespace potsGames
 		{
 			switch (e.KeyCode)
 			{
-				case Keys.Space:
-					Step = -SpeedY;
+				case Keys.W:
+					StepY = -Pots.SpeedY;
                  mainBird.Image = GetImage("bird_straight");
 					break;
 				case Keys.Escape:
 					GamePause();
 					break;
+				case Keys.Space:
+					GamePause();
+					break;
+				case Keys.S:
+					StepY = Pots.SpeedY + Pots.Gravity;
+                  mainBird.Image = GetImage("bird_down");
+				  break;
+				case Keys.D:
+				  StepX = Pots.SpeedX;
+				  mainBird.Image = GetImage("bird_straight");
+				  break;
+				case Keys.A:
+					 StepX = -Pots.SpeedX;
+				  mainBird.Image = GetImage("bird_straight");
+				  break;
+
+
 			}
 			
 		}
 
 		private void Timer3Tick(object sender, EventArgs e) // ok
 		{
-			mainBird.Location = new Point(mainBird.Location.X, mainBird.Location.Y + Step);
+			mainBird.Location = new Point(mainBird.Location.X + StepX, mainBird.Location.Y + StepY);
 
 			if (mainBird.Location.Y < 0)
 				mainBird.Location = new Point(mainBird.Location.X, 0);
@@ -85,7 +101,7 @@ namespace potsGames
 
 
 
-			pointWindow.Text = Convert.ToString(points); // Points: 
+			pointWindow.Text = Convert.ToString(Pots.Points); // Points: 
 			Coins.Text = "Coins : " + Convert.ToString(Pots.Coins) + " 💰";//Coins :  xxx  💰
 			LivesPanel.Text = "Lives : " + Convert.ToString(Pots.Lives) + " ♥ " + Convert.ToString(Pots.Armor) + " 👕 ";  // :  5 ♥  1 👕
 														//Coins :  xxx  💰
@@ -95,8 +111,12 @@ namespace potsGames
 		{
 			switch (e.KeyCode)
 			{
-				case Keys.Space:
-					Step = SpeedY;
+				case Keys.W:
+					StepY = Pots.Gravity;
+                  mainBird.Image = GetImage("bird_down");
+					break;
+				case Keys.S:
+					StepY = Pots.Gravity;
                   mainBird.Image = GetImage("bird_down");
 					break;
 			}
