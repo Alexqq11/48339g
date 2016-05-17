@@ -63,6 +63,16 @@ namespace potsGames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap armor {
+            get {
+                object obj = ResourceManager.GetObject("armor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap back {
             get {
                 object obj = ResourceManager.GetObject("back", resourceCulture);
@@ -111,6 +121,16 @@ namespace potsGames.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap coins {
+            get {
+                object obj = ResourceManager.GetObject("coins", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
         /// </summary>
         public static System.IO.UnmanagedMemoryStream collision {
@@ -125,6 +145,16 @@ namespace potsGames.Properties {
         public static System.Drawing.Bitmap green_pipe {
             get {
                 object obj = ResourceManager.GetObject("green_pipe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap heart {
+            get {
+                object obj = ResourceManager.GetObject("heart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -151,23 +181,36 @@ namespace potsGames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap speedBuf {
+            get {
+                object obj = ResourceManager.GetObject("speedBuf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap yellow_pipe {
             get {
                 object obj = ResourceManager.GetObject("yellow_pipe", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+		/// <summary>
+		///   Поиск локализованного ресурса типа name
+		/// </summary>
 		public static System.Drawing.Bitmap GetImage(string image)
 		{
 			object obj = ResourceManager.GetObject(image, resourceCulture);
 			return ((System.Drawing.Bitmap)(obj));
 		}
-
+		/// <summary>
+		///   Поиск локализованного ресурса типа sound.
+		/// </summary>
 		public static System.IO.UnmanagedMemoryStream GetSound(string sound)
 		{
 			return ResourceManager.GetStream(sound, resourceCulture);
 		}
-
     }
 }

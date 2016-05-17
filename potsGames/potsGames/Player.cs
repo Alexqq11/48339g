@@ -17,13 +17,14 @@ namespace potsGames
 
 	public class Player
 	{
-		public int lives { get; set; }
-		public int coins { get; set; }
+		public int Lives { get; set; }
+		public int Coins { get; set; }
 		public bool Alive { get; set; }
 		public Point StartLocation { get; set; }
 		public int SpeedY { get; set; }
 		public int SpeedX { get; set; }
 		public bool inPointZone { get; set; }
+		public int Armor { get; set; }
 		public Player(int speedX, int speedY, Point startLocation)
 		{
 			Alive = true;

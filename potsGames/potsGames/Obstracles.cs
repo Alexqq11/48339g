@@ -80,6 +80,7 @@ namespace potsGames
 		int Speed { get; set; }
 
 		public List<Obstacle> LevelObstacles { get; set; }
+		public List<Bonus> LevelBonus { get; set; } 
 		public ObstaclesMap(int windowHeight, int windowWidth, int obstracleWidth, int horizontInterval, int verticalInterval)
 		{
 			WindowHeight = windowHeight;
@@ -89,7 +90,24 @@ namespace potsGames
 			ObstaclesHorizontInterval = horizontInterval;
 			ObstacleVerticalInterval = verticalInterval;
 			MakeObstacles();
+			MakeBonuses();
 		}
+		private void MakeBonuses()
+		{
+			LevelBonus = new List<Bonus>();
+			var bonusTypes = new List<String>();
+			bonusTypes.Add("armor");
+			bonusTypes.Add("coins");
+			bonusTypes.Add("heart");
+			bonusTypes.Add("speedBuf");
+			for (var i = 0; i < 20; i++)
+			{
+				var bonus  = new Bonus(WindowWidth + ObstacleWidth + 10 + i * ObstaclesHorizontInterval, Rnd.GetRandomNumber(WindowHeight / 4, WindowHeight / 4 * 3 ), 40, 40, bonusTypes[Rnd.GetRandomNumber(0,4)]);
+				LevelBonus.Add(bonus);
+			}
+
+		}
+
 		private void MakeObstacles()
 		{
 

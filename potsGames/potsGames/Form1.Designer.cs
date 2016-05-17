@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.Label LivesPanel;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
 			this.mainBird = new System.Windows.Forms.PictureBox();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -36,17 +37,31 @@
 			this.timer3 = new System.Windows.Forms.Timer(this.components);
 			this.pointWindow = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
+			this.Coins = new System.Windows.Forms.Label();
+			this.DistanceText = new System.Windows.Forms.Label();
+			LivesPanel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.mainBird)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// pictureBox1
+			// LivesPanel
 			// 
-			this.mainBird.BackColor = System.Drawing.Color.Transparent;
+			LivesPanel.AutoSize = true;
+			LivesPanel.BackColor = System.Drawing.Color.Transparent;
+			LivesPanel.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
+			LivesPanel.ForeColor = System.Drawing.Color.Crimson;
+			LivesPanel.Location = new System.Drawing.Point(-2, 8);
+			LivesPanel.Name = "LivesPanel";
+			LivesPanel.Size = new System.Drawing.Size(145, 31);
+			LivesPanel.TabIndex = 4;
+			LivesPanel.Text = "Lives :  5 ♥";
+			// 
+			// mainBird
+			// 
+			this.mainBird.BackColor = System.Drawing.Color.White;
 			this.mainBird.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.mainBird.Image = global::potsGames.Properties.Resources.GetImage("bird_straight");
-			this.mainBird.Location = new System.Drawing.Point(26, 76);
-			this.mainBird.Name = "pictureBox1";
-			this.mainBird.Size = new System.Drawing.Size(31, 34);
+			this.mainBird.Location = new System.Drawing.Point(25, 157);
+			this.mainBird.Name = "mainBird";
+			this.mainBird.Size = new System.Drawing.Size(69, 72);
 			this.mainBird.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.mainBird.TabIndex = 1;
 			this.mainBird.TabStop = false;
@@ -66,14 +81,14 @@
 			this.timer3.Interval = 1;
 			this.timer3.Tick += new System.EventHandler(this.Timer3Tick);
 			// 
-			// label1
+			// pointWindow
 			// 
 			this.pointWindow.AutoSize = true;
 			this.pointWindow.BackColor = System.Drawing.Color.Transparent;
 			this.pointWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.pointWindow.ForeColor = System.Drawing.Color.Red;
-			this.pointWindow.Location = new System.Drawing.Point(239, 9);
-			this.pointWindow.Name = "label1";
+			this.pointWindow.ForeColor = System.Drawing.Color.Black;
+			this.pointWindow.Location = new System.Drawing.Point(454, 10);
+			this.pointWindow.Name = "pointWindow";
 			this.pointWindow.Size = new System.Drawing.Size(26, 29);
 			this.pointWindow.TabIndex = 2;
 			this.pointWindow.Text = "0";
@@ -82,7 +97,7 @@
 			// button2
 			// 
 			this.button2.ForeColor = System.Drawing.Color.Maroon;
-			this.button2.Location = new System.Drawing.Point(127, 225);
+			this.button2.Location = new System.Drawing.Point(190, 389);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(210, 54);
 			this.button2.TabIndex = 3;
@@ -91,18 +106,47 @@
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.GameStarter);
 			// 
-			// Form1
+			// Coins
+			// 
+			this.Coins.AutoSize = true;
+			this.Coins.BackColor = System.Drawing.Color.Transparent;
+			this.Coins.Font = new System.Drawing.Font("Comic Sans MS", 16F);
+			this.Coins.ForeColor = System.Drawing.Color.Gold;
+			this.Coins.Location = new System.Drawing.Point(149, 7);
+			this.Coins.Name = "Coins";
+			this.Coins.Size = new System.Drawing.Size(170, 30);
+			this.Coins.TabIndex = 5;
+			this.Coins.Text = "Coins :  xxx  💰";
+			// 
+			// DistanceText
+			// 
+			this.DistanceText.AutoSize = true;
+			this.DistanceText.BackColor = System.Drawing.Color.Transparent;
+			this.DistanceText.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.DistanceText.Location = new System.Drawing.Point(325, 7);
+			this.DistanceText.Name = "DistanceText";
+			this.DistanceText.Size = new System.Drawing.Size(123, 30);
+			this.DistanceText.TabIndex = 6;
+			this.DistanceText.Text = "Distanse  :";
+			this.DistanceText.Click += new System.EventHandler(this.label2_Click);
+			// 
+			// GameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackgroundImage = global::potsGames.Properties.Resources.GetImage("back");
-			this.ClientSize = new System.Drawing.Size(482, 324);
+			this.BackgroundImage = global::potsGames.Properties.Resources.back;
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.ClientSize = new System.Drawing.Size(625, 486);
+			this.Controls.Add(this.DistanceText);
+			this.Controls.Add(this.Coins);
+			this.Controls.Add(LivesPanel);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.pointWindow);
 			this.Controls.Add(this.mainBird);
 			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Form1";
+			this.Name = "GameForm";
 			this.Text = "Flappy Yurii";
 			this.Load += new System.EventHandler(this.InitPosition);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.GamePainter);
@@ -112,8 +156,6 @@
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            MaximizeBox = true;
 		}
 
 		#endregion
@@ -124,6 +166,8 @@
 		private System.Windows.Forms.Timer timer3;
 		private System.Windows.Forms.Label pointWindow;
 		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Label Coins;
+		private System.Windows.Forms.Label DistanceText;
 	}
 }
 

@@ -21,9 +21,9 @@ namespace potsGames
 		ObstaclesMap Pipes;
 		Player Pots;
 		int Step = 5 ;
-		int PipeWidth = 55;
-		int PipeDifferentY = 140;
-		int PipeDifferentX = 180;
+		int PipeWidth = 75;
+		int PipeDifferentY = 200;
+		int PipeDifferentX = 280;
 
 		int Originalx, Originaly;
 		int points;
@@ -41,7 +41,7 @@ namespace potsGames
 		//private Force 
 		private void StartGame()
 		{
-			Pots = new Player(3, 5, mainBird.Location);
+			Pots = new Player(6, 5, mainBird.Location);
 
 			timer1.Enabled = true;
 			timer2.Enabled = true;
@@ -54,7 +54,7 @@ namespace potsGames
 
 	public void InitialPipes()
 		{
-			if(Pipes != null) 
+			if(Pipes != null) {
 			for (int i = 0; i < Pipes.Count; i++){
 				if (Pipes[i].TopX + PipeWidth <= 0)// attention 
 				{
@@ -65,17 +65,28 @@ namespace potsGames
 
 					Pipes[i].TopX = Pipes[i].TopX - Pots.SpeedX; // in future make a nomal interface of class
 					Pipes[i].BottomX = Pipes[i].BottomX - Pots.SpeedX;
-			}
+					
+			}}
+				for (int i = 0; i < 20; i++)
+				{
+					Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.SpeedX;
+				}
 			}
 		}
 		public void CollisionsChecker()
 		{
 			if (Pipes != null)
-			for (var i = 0; i < Pipes.Count; i++)
 			{
-				if (Pipes[i].TopX < 2 * PipeDifferentX) // attention
+				for (var i = 0; i < Pipes.Count; i++)
 				{
-					CheckForCollision(Pipes[i]);
+					if (Pipes[i].TopX < 2 * PipeDifferentX) // attention
+					{
+						CheckForCollision(Pipes[i]);
+					}
+				}
+				for (var i = 0; i < 20; i++)
+				{
+					CheckForCollision(Pipes.LevelBonus[i]);
 				}
 			}
 		}
@@ -83,25 +94,59 @@ namespace potsGames
 		public void DrawSearchzone(PaintEventArgs e)
 		{
 			if (Pipes != null)
+			{
 				for (var i = 0; i < Pipes.Count; i++)
 				{
 					if (Pipes[i].BottomX < 2 * PipeDifferentX) // attention
 					{
-						var obstacle  =  Pipes[i];
+						var obstacle = Pipes[i];
 						Rectangle playerLocation = mainBird.Bounds;
-						Rectangle topCollisionZone = new Rectangle(obstacle.TopX, 0, obstacle.ObstacleWidth, obstacle.TopY +15); //watch pipe print
+						Rectangle topCollisionZone = new Rectangle(obstacle.TopX, 0, obstacle.ObstacleWidth, obstacle.TopY + 15); //watch pipe print
 						Rectangle bottomCollisionZone = new Rectangle(obstacle.BottomX, obstacle.BottomLength, obstacle.ObstacleWidth, obstacle.WindowHeight - obstacle.BottomLength);
 						Rectangle topZoneIntersection = Rectangle.Intersect(playerLocation, topCollisionZone);
 						Rectangle bottomZoneIntersection = Rectangle.Intersect(playerLocation, bottomCollisionZone);
 						Rectangle pointZone = new Rectangle(obstacle.BottomX + 20, obstacle.BottomLength - obstacle.ObstacleVerticalInterval, 15, obstacle.ObstacleVerticalInterval);
-				
-						e.Graphics.DrawRectangle( new Pen(Brushes.DarkTurquoise, 5), topCollisionZone);
-						e.Graphics.DrawRectangle(new Pen(Brushes.Gold, 5), bottomCollisionZone);
+
+						e.Graphics.DrawRectangle(new Pen(Brushes.OrangeRed, 6), playerLocation);
+						e.Graphics.DrawRectangle(new Pen(Brushes.DarkTurquoise, 5), topCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.DarkTurquoise, 5), bottomCollisionZone);
 						e.Graphics.DrawRectangle(new Pen(Brushes.Khaki, 5), topZoneIntersection);
 						e.Graphics.DrawRectangle(new Pen(Brushes.LightYellow, 5), bottomZoneIntersection);
 						e.Graphics.DrawRectangle(new Pen(Brushes.Red, 5), pointZone);
+						//
 					}
 				}
+				for (var i = 0; i < 20; i++)
+				{
+					if (Pipes.LevelBonus[i].X < 2 * PipeDifferentX) // attention
+					{
+						var bonus = Pipes.LevelBonus[i];
+						Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Violet, 8), bonusCollisionZone);
+					}
+
+				}
+			}
+				//for (var i = 0; i < )
+
+		}
+		public void CheckForCollision(Bonus bonus)
+		{
+			Rectangle playerLocation = mainBird.Bounds;
+			Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
+			Rectangle intersection = Rectangle.Intersect(playerLocation, bonusCollisionZone);
+			if (intersection != Rectangle.Empty)
+			{
+				if (!bonus.Taked)
+				{
+					Pots.Lives += bonus.Lives;
+					Pots.Armor += bonus.Armor;
+					Pots.Coins += bonus.Coins;
+					Pots.SpeedY += bonus.SpeedBuf;
+					bonus.Taked = true;
+				}
+	
+			}
 
 		}
 		public void CheckForCollision(Obstacle obstacle) { 
@@ -110,6 +155,7 @@ namespace potsGames
 			Rectangle bottomCollisionZone = new Rectangle(obstacle.BottomX, obstacle.BottomLength, obstacle.ObstacleWidth, obstacle.WindowHeight - obstacle.BottomLength);
 			Rectangle topZoneIntersection = Rectangle.Intersect(playerLocation, topCollisionZone);
 			Rectangle bottomZoneIntersection = Rectangle.Intersect(playerLocation, bottomCollisionZone);
+			
 			if (bottomZoneIntersection != Rectangle.Empty | topZoneIntersection != Rectangle.Empty)
 			{
 					PlaySound("collision");
@@ -146,13 +192,23 @@ namespace potsGames
 		}
 
 		public void DrawPipes(PaintEventArgs e)
-		{	
+		{
 			if (Pipes != null)
-			for (var i = 0; i < Pipes.Count; i++)
 			{
-				if (Pots != null && Pots.Alive && Pipes[i] != null)
+				for (var i = 0; i < Pipes.Count; i++)
 				{
-					Pipes[i].DrawPipe(e);
+					if (Pots != null && Pots.Alive && Pipes[i] != null)
+					{
+						Pipes[i].DrawPipe(e);
+					}
+				}
+				for (var i = 0; i < 20; i++)
+				{
+					if (Pots != null && Pots.Alive)
+					{
+						Pipes.LevelBonus[i].DrawBonus(e);
+					}
+
 				}
 			}
 		}

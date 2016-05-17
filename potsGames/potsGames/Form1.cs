@@ -59,7 +59,7 @@ namespace potsGames
 			{
 				case Keys.Space:
 					Step = -5;
-                    mainBird.Image = GetImage("bird_straight");
+                   mainBird.Image = GetImage("bird_straight");
 					break;
 			}
 		}
@@ -90,9 +90,14 @@ namespace potsGames
 			{
 				case Keys.Space:
 					Step = 5;
-                    mainBird.Image = GetImage("bird_down");
+                   mainBird.Image = GetImage("bird_down");
 					break;
 			}
+		}
+
+		private void label2_Click(object sender, EventArgs e)
+		{
+
 		}
 
 	}
