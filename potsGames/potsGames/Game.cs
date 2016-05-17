@@ -28,6 +28,7 @@ namespace potsGames
 
 		int Originalx, Originaly;
 		int points;
+		bool Pause = false;
 
 		private void Die()
 		{
@@ -40,15 +41,22 @@ namespace potsGames
 			mainBird.Location = Pots.StartLocation;
 		}
 		//private Force 
-		private void PauseGame(){
-			if (Pots.Alive)
+		private void GamePause(){
+			if (!Pause)
 			{
 				timer2.Enabled = false;
 				timer3.Enabled = false;
+				Pause = true;
 
 			}
- 
+			else
+			{
+				timer2.Enabled = true;
+				timer3.Enabled = true;
+				Pause = false;
+			}
 		}
+ 
 		private void StartGame()
 		{
 			Pots = new Player(6, 5, mainBird.Location);

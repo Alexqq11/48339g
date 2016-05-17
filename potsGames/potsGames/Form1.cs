@@ -61,7 +61,11 @@ namespace potsGames
 					Step = -SpeedY;
                  mainBird.Image = GetImage("bird_straight");
 					break;
+				case Keys.Escape:
+					GamePause();
+					break;
 			}
+			
 		}
 
 		private void Timer3Tick(object sender, EventArgs e) // ok
@@ -103,10 +107,11 @@ namespace potsGames
 
 		}
 
-		private void button1_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			//e.KeyChar 
-		}
+		//private void button1_KeyPress(object sender, KeyPressEventArgs e)
+		//{
+			//Console.WriteLine(e.KeyChar); 
+		//}
+
 
 	}
 }

@@ -42,14 +42,14 @@
 			((System.ComponentModel.ISupportInitialize)(this.mainBird)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// LivesPanel
+			// this.LivesPanel
 			// 
 			this.LivesPanel.AutoSize = true;
 			this.LivesPanel.BackColor = System.Drawing.Color.Transparent;
 			this.LivesPanel.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
 			this.LivesPanel.ForeColor = System.Drawing.Color.Crimson;
 			this.LivesPanel.Location = new System.Drawing.Point(-2, 8);
-			this.LivesPanel.Name = "LivesPanel";
+			this.LivesPanel.Name = "this.LivesPanel";
 			this.LivesPanel.Size = new System.Drawing.Size(221, 31);
 			this.LivesPanel.TabIndex = 4;
 			this.LivesPanel.Text = "Lives :  5 ♥  1 👕 ";
