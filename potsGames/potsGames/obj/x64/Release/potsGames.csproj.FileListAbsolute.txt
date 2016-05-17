@@ -1,0 +1,10 @@
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\bin\x64\Release\potsGames.exe.config
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\bin\x64\Release\potsGames.exe
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\bin\x64\Release\potsGames.pdb
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.GameForm.resources
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.Properties.Resources.resources
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.Resource1.resources
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.csproj.GenerateResource.Cache
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.exe
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.pdb
+C:\Users\UX32LA\Downloads\potsgames\potsGames\potsGames\obj\x64\Release\potsGames.csprojResolveAssemblyReference.cache

@@ -27,10 +27,21 @@ namespace potsGames
 		public int Armor {get {return armor;}}
 		public int Coins {get {return coins;}}
 		public int SpeedBuf {get {return speedBuf;}}
-		private int lives = 0; //{public get; set;}
-		private int armor = 0; //{get; private set;}
-		private int coins = 0; //{get; private set;}
-		private int speedBuf = 0; //{get; private set;}
+		private int lives; //{public get; set;}
+		private int armor; //{get; private set;}
+		private int coins; //{get; private set;}
+		private int speedBuf; //{get; private set;}
+		public void Taken(){
+			if (Taked)
+			{
+				X = -5;
+				Y = -5;
+				Width = 0;
+				Height = 0;
+				Texture = null;
+			}
+		}
+
 		public Bonus(int x , int y, int width, int height, string bonusType)
 		{
 			X = x;
@@ -56,16 +67,16 @@ namespace potsGames
 			switch (bonusType)
 			{
 
-				case "Lives":
+				case "heart":
 					lives = 1;
 					break;
-				case "Armor":
+				case "armor":
 					armor = 1;
 					break;
-				case "Coins":
+				case "coins":
 					coins = Rnd.GetRandomNumber(10, 100);
 					break;
-				case "SpeedBuf":
+				case "speedBuf":
 					speedBuf = 2;
 					break;
 			}

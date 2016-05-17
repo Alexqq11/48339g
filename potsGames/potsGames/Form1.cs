@@ -58,8 +58,8 @@ namespace potsGames
 			switch (e.KeyCode)
 			{
 				case Keys.Space:
-					Step = -5;
-                   mainBird.Image = GetImage("bird_straight");
+					Step = -SpeedY;
+                 mainBird.Image = GetImage("bird_straight");
 					break;
 			}
 		}
@@ -81,16 +81,19 @@ namespace potsGames
 
 
 
-			pointWindow.Text = Convert.ToString(points);
-		}
+			pointWindow.Text = Convert.ToString(points); // Points: 
+			Coins.Text = "Coins : " + Convert.ToString(Pots.Coins) + " 💰";//Coins :  xxx  💰
+			LivesPanel.Text = "Lives : " + Convert.ToString(Pots.Lives) + " ♥ " + Convert.ToString(Pots.Armor) + " 👕 ";  // :  5 ♥  1 👕
+														//Coins :  xxx  💰
+		} 
 
 		private void OnKeyUp(object sender, KeyEventArgs e) //ok
 		{
 			switch (e.KeyCode)
 			{
 				case Keys.Space:
-					Step = 5;
-                   mainBird.Image = GetImage("bird_down");
+					Step = SpeedY;
+                  mainBird.Image = GetImage("bird_down");
 					break;
 			}
 		}
@@ -98,6 +101,11 @@ namespace potsGames
 		private void label2_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void button1_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//e.KeyChar 
 		}
 
 	}

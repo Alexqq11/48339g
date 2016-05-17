@@ -21,6 +21,7 @@ namespace potsGames
 		ObstaclesMap Pipes;
 		Player Pots;
 		int Step = 5 ;
+		int SpeedY;
 		int PipeWidth = 75;
 		int PipeDifferentY = 200;
 		int PipeDifferentX = 280;
@@ -39,10 +40,19 @@ namespace potsGames
 			mainBird.Location = Pots.StartLocation;
 		}
 		//private Force 
+		private void PauseGame(){
+			if (Pots.Alive)
+			{
+				timer2.Enabled = false;
+				timer3.Enabled = false;
+
+			}
+ 
+		}
 		private void StartGame()
 		{
 			Pots = new Player(6, 5, mainBird.Location);
-
+			SpeedY = Pots.SpeedY;
 			timer1.Enabled = true;
 			timer2.Enabled = true;
 			timer3.Enabled = true;
@@ -65,6 +75,7 @@ namespace potsGames
 
 					Pipes[i].TopX = Pipes[i].TopX - Pots.SpeedX; // in future make a nomal interface of class
 					Pipes[i].BottomX = Pipes[i].BottomX - Pots.SpeedX;
+					SpeedY = Pots.SpeedY;
 					
 			}}
 				for (int i = 0; i < 20; i++)
@@ -121,8 +132,11 @@ namespace potsGames
 					if (Pipes.LevelBonus[i].X < 2 * PipeDifferentX) // attention
 					{
 						var bonus = Pipes.LevelBonus[i];
+						Rectangle playerLocation = mainBird.Bounds;
 						Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
+						Rectangle intersection = Rectangle.Intersect(playerLocation, bonusCollisionZone);
 						e.Graphics.DrawRectangle(new Pen(Brushes.Violet, 8), bonusCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Black, 8), intersection);
 					}
 
 				}
@@ -144,6 +158,7 @@ namespace potsGames
 					Pots.Coins += bonus.Coins;
 					Pots.SpeedY += bonus.SpeedBuf;
 					bonus.Taked = true;
+					bonus.Taken();
 				}
 	
 			}
@@ -204,7 +219,7 @@ namespace potsGames
 				}
 				for (var i = 0; i < 20; i++)
 				{
-					if (Pots != null && Pots.Alive)
+					if (Pots != null && Pots.Alive && !Pipes.LevelBonus[i].Taked)
 					{
 						Pipes.LevelBonus[i].DrawBonus(e);
 					}
