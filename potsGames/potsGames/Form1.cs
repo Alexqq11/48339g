@@ -23,12 +23,6 @@ namespace potsGames
 			InitializeComponent();
 		}
 
-		private void InitPosition(object sender, EventArgs e)
-		
-		{
-
-		}
-
 		private void GameStarter(object sender, EventArgs e)//ok
 		{
 			SecondPots.Visible = false;
@@ -128,12 +122,7 @@ namespace potsGames
 
 			CollisionsChecker();
 
-			/*if (Pots.Alive)
-				PointsChecker();*/
-
-
-
-			pointWindow.Text = Convert.ToString(Pots.Points); // Points: 
+			pointWindow.Text ="Points : "+ Convert.ToString(Pots.Points); // Points: 
 			Coins.Text = "Coins : " + Convert.ToString(Pots.Coins) + " 💰";//Coins :  xxx  💰
 			LivesPanel.Text = "Lives : " + Convert.ToString(Pots.Lives) + " ♥ " + Convert.ToString((Pots.Armor) ? 1 : 0) + " 👕 ";  // :  5 ♥  1 👕
 														//Coins :  xxx  💰
@@ -261,12 +250,5 @@ namespace potsGames
 				GamePause();
 			}
 		}
-
-		//private void button1_KeyPress(object sender, KeyPressEventArgs e)
-		//{
-			//Console.WriteLine(e.KeyChar); 
-		//}
-
-
 	}
 }

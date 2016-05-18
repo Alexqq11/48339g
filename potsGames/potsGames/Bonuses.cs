@@ -58,10 +58,6 @@ namespace potsGames
 
 			e.Graphics.DrawImage(Texture, X, Y, Width, Height);
 		}
-		///var topPipe = Properties.Resources.GetImage("yellow_pipe");
-		//topPipe.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-		//e.Graphics.DrawImage(topPipe, TopX, 0, ObstacleWidth, TopY + 15);
-
 		private void SetBonusCharacteristic(string bonusType)
 		{
 			switch (bonusType)

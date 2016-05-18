@@ -171,7 +171,6 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "GameForm";
 			this.Text = "Flappy Yurii";
-			this.Load += new System.EventHandler(this.InitPosition);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.GamePainter);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
