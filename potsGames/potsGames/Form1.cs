@@ -90,6 +90,8 @@ namespace potsGames
 
 			if (mainBird.Location.Y < 0)
 				mainBird.Location = new Point(mainBird.Location.X, 0);
+			if (mainBird.Location.X < 0)
+				mainBird.Location = new Point(0, mainBird.Location.Y);
 
 			if (mainBird.Location.Y + mainBird.Height > this.ClientSize.Height)
 				mainBird.Location = new Point(mainBird.Location.X, this.ClientSize.Height - mainBird.Height);
@@ -103,7 +105,7 @@ namespace potsGames
 
 			pointWindow.Text = Convert.ToString(Pots.Points); // Points: 
 			Coins.Text = "Coins : " + Convert.ToString(Pots.Coins) + " 💰";//Coins :  xxx  💰
-			LivesPanel.Text = "Lives : " + Convert.ToString(Pots.Lives) + " ♥ " + Convert.ToString(Pots.Armor) + " 👕 ";  // :  5 ♥  1 👕
+			LivesPanel.Text = "Lives : " + Convert.ToString(Pots.Lives) + " ♥ " + Convert.ToString((Pots.Armor) ? 1 : 0) + " 👕 ";  // :  5 ♥  1 👕
 														//Coins :  xxx  💰
 		} 
 

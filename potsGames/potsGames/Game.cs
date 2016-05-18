@@ -82,11 +82,11 @@ namespace potsGames
 					}
 					else
 					{*/
-
 						Pipes[i].TopX = Pipes[i].TopX - Pots.GameSpeed; // in future make a nomal interface of class
 						Pipes[i].BottomX = Pipes[i].BottomX - Pots.GameSpeed;
 						Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.GameSpeed; // write move method in the map objects
-						Pipes.LevelBoxes[i].X = Pipes.LevelBoxes[i].X - Pots.GameSpeed;
+						//Pipes.LevelBoxes[i].X = Pipes.LevelBoxes[i].X - Pots.GameSpeed;
+						Pipes.LevelBoxes[i].Update(Pots.GameSpeed);
 						//SpeedY = Pots.SpeedY;
 
 					//}
@@ -188,7 +188,7 @@ namespace potsGames
 				if (!bonus.Taked)
 				{
 					Pots.Lives += bonus.Lives;
-					Pots.Armor += bonus.Armor;
+					Pots.Armor = (0 != bonus.Armor);
 					Pots.Coins += bonus.Coins;
 					Pots.SpeedY += bonus.SpeedBuf;
 					bonus.Taked = true;
@@ -207,8 +207,17 @@ namespace potsGames
 
 			if (Intersection != Rectangle.Empty)
 			{
-				PlaySound("collision");
-				Die();
+				if (obstacle.Exist)
+				{
+					Pots.GameSpeed = -Pots.GameSpeed - 20;
+					InitialPipes();
+					Pots.GameSpeed = -Pots.GameSpeed - 20;
+					PlaySound("collision");
+					Pots = obstacle.Collision(Pots);
+					//PlaySound("collision");
+					if (!Pots.Alive)
+						Die();
+				}
 			}
 
 		}
@@ -257,7 +266,16 @@ namespace potsGames
 			else Pots.inPointZone = false;
 
 		}
+		public bool ObstacleInScreen(ObstacleV2 obstacle)
+		{
+			return (obstacle.X + obstacle.Width > -1) && (obstacle.X < Width + 1) && (obstacle.Y + obstacle.Height > -1) && (obstacle.Y < Height + 1); 
 
+		}
+		public bool ObstacleInScreen(Bonus obstacle)
+		{
+			return (obstacle.X + obstacle.Width > -1) && (obstacle.X < Width + 1) && (obstacle.Y + obstacle.Height > -1) && (obstacle.Y < Height + 1);
+
+		}
 		public void DrawPipes(PaintEventArgs e)
 		{
 			if (Pipes != null)
@@ -271,7 +289,7 @@ namespace potsGames
 				}
 				for (var i = 0; i < Pipes.Count; i++)
 				{
-					if (Pots != null && Pots.Alive && !Pipes.LevelBonus[i].Taked && Pipes.LevelBonus[i].X < Width + 1)
+					if (Pots != null && Pots.Alive && !Pipes.LevelBonus[i].Taked && ObstacleInScreen(Pipes.LevelBonus[i]))
 					{
 						Pipes.LevelBonus[i].DrawBonus(e);
 					}
@@ -281,7 +299,7 @@ namespace potsGames
 
 				for (var i = 0; i < Pipes.Count; i++)
 				{
-					if (Pots != null && Pots.Alive && Pipes.LevelBoxes[i].X < Width +1)
+					if (Pots != null && Pots.Alive && ObstacleInScreen(Pipes.LevelBoxes[i]))
 					{
 						Pipes.LevelBoxes[i].DrawTexture(e);
 					}

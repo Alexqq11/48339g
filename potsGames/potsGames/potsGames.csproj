@@ -85,6 +85,11 @@
     <Compile Include="Obstracles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -99,14 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Resource1.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
@@ -142,15 +142,46 @@
   <ItemGroup>
     <Content Include="bird_down.ico" />
     <None Include="Resources\armor.jpg" />
+    <None Include="Resources\armor.png" />
     <Content Include="Resources\back.jpg" />
     <Content Include="Resources\back.png" />
+    <None Include="Resources\blue.png" />
+    <None Include="Resources\blue_crash.png" />
+    <None Include="Resources\blue_crash2.png" />
+    <None Include="Resources\blue_crash3.png" />
     <Content Include="Resources\blue_pipe.png" />
     <Content Include="Resources\box.jpg" />
     <None Include="Resources\coins.jpg" />
+    <None Include="Resources\coins.png" />
+    <None Include="Resources\green.png" />
+    <None Include="Resources\green_crash.png" />
+    <None Include="Resources\green_crash2.png" />
+    <None Include="Resources\green_crash3.png" />
+    <None Include="Resources\box_crash.png" />
     <Content Include="Resources\green_pipe.png" />
     <None Include="Resources\heart.jpg" />
+    <None Include="Resources\heart.png" />
+    <None Include="Resources\pots_1_1.png" />
+    <None Include="Resources\pots_1_1_protected.png" />
+    <None Include="Resources\pots_1_2.png" />
+    <None Include="Resources\pots_1_2_protected.png" />
+    <None Include="Resources\pots_2_1.png" />
+    <None Include="Resources\pots_2_1_protected.png" />
+    <None Include="Resources\pots_2_2.png" />
+    <None Include="Resources\pots_2_2_protected.png" />
+    <None Include="Resources\red.png" />
+    <None Include="Resources\red_crash.png" />
+    <None Include="Resources\red_crash2.png" />
+    <None Include="Resources\red_crash3.png" />
     <Content Include="Resources\red_pipe.png" />
     <None Include="Resources\speedBuf.png" />
+    <None Include="Resources\slower.png" />
+    <None Include="Resources\slowness.png" />
+    <None Include="Resources\wings.png" />
+    <None Include="Resources\yellow.png" />
+    <None Include="Resources\yellow_crash.png" />
+    <None Include="Resources\yellow_crash2.png" />
+    <None Include="Resources\yellow_crash3.png" />
     <Content Include="Resources\yellow_pipe.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

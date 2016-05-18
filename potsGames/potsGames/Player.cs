@@ -26,13 +26,17 @@ namespace potsGames
 		public int SpeedY { get; set; }
 		public int SpeedX { get; set; }
 		public bool inPointZone { get; set; }
-		public int Armor { get; set; }
+		public bool Armor { get; set; }
 		public int GameSpeed { get; set; }
 		public int Ammo { get; set; }
 		public Player(int speedX, int speedY, Point startLocation)
 		{
 			Gravity = 5;
 			GameSpeed = 5;
+			Coins = 0;
+			Points = 0;
+			Armor = false;
+			Lives = 1;
 			Alive = true;
 			SpeedX = speedX;
 			SpeedY = speedY;

@@ -52,7 +52,7 @@
 			this.LivesPanel.Name = "this.LivesPanel";
 			this.LivesPanel.Size = new System.Drawing.Size(221, 31);
 			this.LivesPanel.TabIndex = 4;
-			this.LivesPanel.Text = "Lives :  5 ♥  1 👕 ";
+			this.LivesPanel.Text = "";
 			// 
 			// mainBird
 			// 
@@ -90,7 +90,7 @@
 			this.pointWindow.Name = "pointWindow";
 			this.pointWindow.Size = new System.Drawing.Size(105, 29);
 			this.pointWindow.TabIndex = 2;
-			this.pointWindow.Text = "Points: 0";
+			this.pointWindow.Text = "";
 			this.pointWindow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// button2
@@ -115,7 +115,7 @@
 			this.Coins.Name = "Coins";
 			this.Coins.Size = new System.Drawing.Size(170, 30);
 			this.Coins.TabIndex = 5;
-			this.Coins.Text = "Coins :  xxx  💰";
+			this.Coins.Text = "";
 			// 
 			// GameForm
 			// 

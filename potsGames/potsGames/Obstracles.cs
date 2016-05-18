@@ -22,46 +22,213 @@ namespace potsGames
 
 			return rnd.Next(start, end);
 		}
+
 	}
+
+	public class Doors
+	{
+		int X {get; set;}
+		int Y { get; set; }
+		int Width { get; set; }
+		bool Interective { get; set;}
+		int DoorWay { get; set; }
+		Point DoorWayCenter { get; set;}
+		int DoorSpeed { get; set;}
+		bool closing;
+		ObstacleV2 Top { get; set;}
+		ObstacleV2 Bottom { get; set;}
+		public Doors(string type,int x, int windowHeight)
+		{
+			
+			DoorWayCenter = new Point( x, Rnd.GetRandomNumber(DoorWay, windowHeight - DoorWay));
+			Top = new ObstacleV2(type, DoorWayCenter.X, 0 - DoorWay / 2, Width, DoorWayCenter.Y);
+			Bottom = new ObstacleV2(type, DoorWayCenter.X, DoorWayCenter.Y + DoorWay / 2, Width, windowHeight - DoorWayCenter.Y + DoorWay / 2);
+		}
+		  
+	}
+
 	public class LevelMap
 	{
+		int distanceX = 70;
+		int distanseY = 70;
+		int amount = 50;
+
 		List<Bonus> LevelBonuses;
 		List<ObstacleV2> LevelObstaclesPipes;
 		List<ObstacleV2> LevelFlyBoxex;
-		List<ObstacleV2> LevelDoors; 
-		//LevelMap  = 
+		List<ObstacleV2> LevelDoors;
+
+		public LevelMap()
+		{
+			for (var i = 0; i < amount; i++)
+			{
+				//LevelBonu 
+
+
+			}
+
+
+		}
 	}
 
 	public class ObstacleV2
 	{
+		public bool Physic {get; set;}
+		public bool Exist { get; set; }
+		public int Gravity {get; set;}
+		public int GameSpeed {get; set;}
+
 		public int X {get; set;}
 		public int Y {get; set;}
 		public int Width {get; set;}
 		public int Height {get; set;}
-		public int strength {get; set;}
+		public int Strength {get; set;}
+		public int Damage {get; set;}
 		private System.Drawing.Bitmap Texture;
-		int Points;
+		public int Points { get; private set;} 
 		string Name;
-		Dictionary<int, String> Textures; 
+		Dictionary<string, Dictionary<int, string>> Textures;
+
+		public Player Collision(Player pots)
+		{
+			if (Exist)
+				if (pots.Armor)
+				{
+					Strength = 0;
+					pots.Armor = false;
+					SetTexture();
+					pots.Points = Points;
+					Exist = false;
+					Physic = true;
+					Gravity = 10;
+
+				}
+				else
+				{
+					Strength = Strength - Damage;
+					pots.Lives = pots.Lives - Damage % 4;
+					if (pots.Lives > 0)
+					{
+						SetTexture();
+						if (Strength == 0)
+						{
+							pots.Points = Points;
+							Exist = false;
+							Physic = true;
+							Gravity = 10;
+						}
+					}
+					else pots.Alive = false;
+
+				}
+			return pots;
+		}
+		
+		private void TextureInit()
+		{
+			Textures = new Dictionary<string, Dictionary<int, string>>();
+			var boxTexture = new Dictionary<int , string>();
+				boxTexture[0] = "box_crash";
+				boxTexture[1] = "box";
+			var redPipeTexture = new Dictionary<int , string>();
+				redPipeTexture[0] = "red_crash3"; 
+				redPipeTexture[1] = "red_crash2"; 
+				redPipeTexture[2] = "red_crash"; 
+				redPipeTexture[3] = "red";
+			var greenPipeTexture = new Dictionary<int , string>();
+				greenPipeTexture[0] = "green_crash3"; 
+				greenPipeTexture[1] = "green_crash2"; 
+				greenPipeTexture[2] = "green_crash"; 
+				greenPipeTexture[3] = "green";
+			var bluePipeTexture = new Dictionary<int , string>();
+				bluePipeTexture[0] = "blue_crash3"; 
+				bluePipeTexture[1] = "blue_crash2"; 
+				bluePipeTexture[2] = "blue_crash"; 
+				bluePipeTexture[3] = "blue";
+			var yellowPipeTexture = new Dictionary<int, string>();
+				yellowPipeTexture[0] = "yellow_crash3";
+				yellowPipeTexture[1] = "yellow_crash2";
+				yellowPipeTexture[2] = "yellow_crash";
+				yellowPipeTexture[3] = "yellow";
+			Textures["box"] = boxTexture;
+			Textures["bluePipe"] = bluePipeTexture;
+			Textures["redPipe"] = redPipeTexture;
+			Textures["greenPipe"] = greenPipeTexture;
+			Textures["yellowPipe"] = yellowPipeTexture;
+
+		}
+ 		public void  Update(int gameSpeed, int gravity,bool physic)
+		{
+			if (physic)
+				MoveDown(gravity);
+			MoveBackward(gameSpeed);
+			GameSpeed = gameSpeed;
+			Gravity = gravity;
+			Physic = physic;
+		}
+		public void Update(int gameSpeed)
+		{
+			if (Physic)
+				MoveDown(Gravity);
+			MoveBackward(gameSpeed);
+		}
+		public void Update()
+		{
+			if (Physic)
+				MoveDown(Gravity);
+			MoveBackward(GameSpeed);
+		}
 		public ObstacleV2(string name, int x, int y, int width, int height)
 		{
+			Exist = true;
 			X = x;
 			Y = y;
 			Width = width;
 			Height = height;
 			Name = name;
-			SetTexture(name);
+			TextureInit();
+			setStrength(name);
+			SetTexture();
+			SetPoints();
 		}
-		
-		private void SetTexture(string name){
-			Texture = Properties.Resources.GetImage(name);
+		private void setStrength(string name){
+			switch(name){
+				case "box":
+					Strength = 1;
+					Damage = 1;
+					break;
+				case "greenPipe":
+					Strength = 3;
+					Damage = 1;
+					break;
+				case "yellowPipe":
+					Strength = 6;
+					Damage = 2;
+					break;
+				case "redPipe":
+					Strength = 9;
+					Damage = 3;
+					break;
+				case "bluePipe":
+					Strength = 45;
+					Damage = 15;
+					break;
+
+			}
+ 
+		}
+		private void SetTexture(){
+			Texture = Properties.Resources.GetImage(Textures[Name][Strength / Damage]);
 		}
   
-		public void DrawTexture(PaintEventArgs e)
-		{
+		public void DrawTexture(PaintEventArgs e )//, int windowWidth, int windowHeight)
+		{	//if (Exist &&  Y > windowHeight + 10)
 			e.Graphics.DrawImage(Texture,X,Y,Width,Height);
 		}
-
+		private void SetPoints()
+		{
+			Points = (Strength * Damage) % (Damage + Damage / 2);
+		}
 		private void Movement(int x, int y)
 		{
 			X = X + x;
