@@ -33,8 +33,15 @@ namespace potsGames
 			mainBird.Enabled = true;
 			GamePersonSelected = false;
 			if (GamePerson == 1)
+			{
 				FirstPots.Location = FirstSelection;
-			else SecondPots.Location = SecondSelection;
+				mainBird.Image = GetImage("pots_1_1");
+			}
+			else
+			{
+				mainBird.Image = GetImage("pots_2_1");
+				SecondPots.Location = SecondSelection;
+			}
 			StartGame();
 		}
 

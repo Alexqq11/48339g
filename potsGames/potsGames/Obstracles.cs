@@ -35,8 +35,8 @@ namespace potsGames
 		public Point DoorWayCenter { get; set;}
 		public int DoorSpeed { get; set;}
 		public bool closing { get; set; }
-	public 	ObstacleV2 Top { get; set;}
-	public 	ObstacleV2 Bottom { get; set;}
+		public 	ObstacleV2 Top { get; set;}
+		public 	ObstacleV2 Bottom { get; set;}
 		public Doors(string type,int x, int windowHeight)
 		{
 			DoorWay = 170;
@@ -45,7 +45,7 @@ namespace potsGames
 			Top = new ObstacleV2(type, DoorWayCenter.X, 0 - DoorWay / 2, Width, DoorWayCenter.Y);
 			Bottom = new ObstacleV2(type, DoorWayCenter.X, DoorWayCenter.Y + DoorWay / 2, Width, windowHeight - DoorWayCenter.Y + DoorWay / 2);
 		}
-		  
+
 	}
 
 	public class LevelMap
