@@ -28,6 +28,7 @@ namespace potsGames
 		public bool inPointZone { get; set; }
 		public int Armor { get; set; }
 		public int GameSpeed { get; set; }
+		public int Ammo { get; set; }
 		public Player(int speedX, int speedY, Point startLocation)
 		{
 			Gravity = 5;
