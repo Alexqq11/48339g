@@ -27,19 +27,20 @@ namespace potsGames
 
 	public class Doors
 	{
-		int X {get; set;}
-		int Y { get; set; }
-		int Width { get; set; }
-		bool Interective { get; set;}
-		int DoorWay { get; set; }
-		Point DoorWayCenter { get; set;}
-		int DoorSpeed { get; set;}
-		bool closing;
-		ObstacleV2 Top { get; set;}
-		ObstacleV2 Bottom { get; set;}
+		public int X {get; set;}
+		public int Y { get; set; }
+		public int Width { get; set; }
+		public bool Interective { get; set;}
+		public int DoorWay { get; set; }
+		public Point DoorWayCenter { get; set;}
+		public int DoorSpeed { get; set;}
+		public bool closing { get; set; }
+	public 	ObstacleV2 Top { get; set;}
+	public 	ObstacleV2 Bottom { get; set;}
 		public Doors(string type,int x, int windowHeight)
 		{
-			
+			DoorWay = 150;
+			Width = 65;
 			DoorWayCenter = new Point( x, Rnd.GetRandomNumber(DoorWay, windowHeight - DoorWay));
 			Top = new ObstacleV2(type, DoorWayCenter.X, 0 - DoorWay / 2, Width, DoorWayCenter.Y);
 			Bottom = new ObstacleV2(type, DoorWayCenter.X, DoorWayCenter.Y + DoorWay / 2, Width, windowHeight - DoorWayCenter.Y + DoorWay / 2);
@@ -49,25 +50,82 @@ namespace potsGames
 
 	public class LevelMap
 	{
-		int distanceX = 70;
-		int distanseY = 70;
-		int amount = 50;
+	//	int distanceX = 70;
+		//int distanseY = 70;
+		//int Count = 50;
 
-		List<Bonus> LevelBonuses;
-		List<ObstacleV2> LevelObstaclesPipes;
-		List<ObstacleV2> LevelFlyBoxex;
-		List<ObstacleV2> LevelDoors;
+	public	List<Bonus> LevelBonus {get; set;}
+		public List<ObstacleV2> LevelBoxes {get;  set;}
+		public List<Doors> LevelDoors {get; set;}
 
-		public LevelMap()
+
+
+	public	int ObstacleWidth { get; set; }         //= 55;
+	public 	int ObstacleVerticalInterval { get; set; }    //= 140;
+	public 	int ObstaclesHorizontInterval { get; set; }
+	public  int Count { get; set; } //= 180;
+	public 	int WindowWidth { get; set; }
+	public 	int WindowHeight { get; set; }
+	public 	int Speed { get; set; }
+
+		public LevelMap(int windowHeight, int windowWidth, int obstracleWidth, int horizontInterval, int verticalInterval)
 		{
-			for (var i = 0; i < amount; i++)
+			WindowHeight = windowHeight;
+			WindowWidth = windowWidth;
+			Count = 40 ;//(windowWidth - obstracleWidth * (windowWidth / horizontInterval)) / horizontInterval + 1; // in the future write normal stabilization
+			ObstacleWidth = obstracleWidth;
+			ObstaclesHorizontInterval = horizontInterval;
+			ObstacleVerticalInterval = verticalInterval;
+			MakeDoors();
+			MakeBonuses();
+			MakeBoxes();
+		
+			
+		}
+
+		private void MakeBonuses()
+		{
+			LevelBonus = new List<Bonus>();
+			var bonusTypes = new List<String>();
+			bonusTypes.Add("armor");
+			bonusTypes.Add("coins");
+			bonusTypes.Add("heart");
+			bonusTypes.Add("speedBuf");
+			for (var i = 0; i < Count; i++)
 			{
-				//LevelBonu 
-
-
+				var bonus = new Bonus(WindowWidth + ObstacleWidth + 10 + i * ObstaclesHorizontInterval, Rnd.GetRandomNumber(WindowHeight / 4, WindowHeight / 4 * 3), 40, 40, bonusTypes[Rnd.GetRandomNumber(0, 4)]);
+				LevelBonus.Add(bonus);
 			}
 
+		}
+		public void MakeBoxes()
+		{
+			LevelBoxes = new List<ObstacleV2>();
 
+			for (var i = 0; i < Count; i++)
+			{
+				var box = new ObstacleV2("box", WindowWidth + ObstacleWidth + 80 + i * ObstaclesHorizontInterval, Rnd.GetRandomNumber(0, WindowHeight - 100), 60, 60);
+				LevelBoxes.Add(box);
+			}
+
+		}
+
+
+		private void MakeDoors()
+		{
+			var Textures = new Dictionary<int,string>();
+			Textures[0]="box"; //] = boxTexture;
+			Textures[1]="bluePipe";//] = bluePipeTexture;
+			Textures[2]="redPipe";//] = redPipeTexture;
+			Textures[3]="greenPipe";//] = greenPipeTexture;
+			Textures[4]="yellowPipe";//] = yellowPipeTexture;
+			LevelDoors = new List<Doors>();
+
+			for (var i = 0; i < Count; i++)
+			{
+				var pipe = new Doors(Textures[Rnd.GetRandomNumber(0, 5)], WindowWidth + i * ObstaclesHorizontInterval, WindowHeight);
+				LevelDoors.Add(pipe);
+			}
 		}
 	}
 
@@ -97,7 +155,7 @@ namespace potsGames
 					Strength = 0;
 					pots.Armor = false;
 					SetTexture();
-					pots.Points = Points;
+					pots.Points += Points;
 					Exist = false;
 					Physic = true;
 					Gravity = 10;
@@ -112,7 +170,7 @@ namespace potsGames
 						SetTexture();
 						if (Strength == 0)
 						{
-							pots.Points = Points;
+							pots.Points += Points;
 							Exist = false;
 							Physic = true;
 							Gravity = 10;
@@ -227,7 +285,7 @@ namespace potsGames
 		}
 		private void SetPoints()
 		{
-			Points = (Strength * Damage) % (Damage + Damage / 2);
+			Points = (Strength * Damage) % (Damage + Damage / 2) + 3;
 		}
 		private void Movement(int x, int y)
 		{

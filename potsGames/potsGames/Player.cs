@@ -36,7 +36,7 @@ namespace potsGames
 			Coins = 0;
 			Points = 0;
 			Armor = false;
-			Lives = 1;
+			Lives = 10;
 			Alive = true;
 			SpeedX = speedX;
 			SpeedY = speedY;

@@ -18,7 +18,19 @@ namespace potsGames
 	public partial class GameForm
 	{
 
-		ObstaclesMap Pipes;
+
+		//selection params
+		int GamePerson = 1;
+		bool GamePersonSelected = false;
+		Point FirstSelection;
+		Point SecondSelection;
+		Point center;
+
+
+		bool Pause = false;
+
+
+		LevelMap Pipes;
 		Player Pots;
 		int StepY = 5;
 		int StepX = 0;
@@ -26,13 +38,15 @@ namespace potsGames
 		int PipeDifferentY = 200; // refact this shit;
 		int PipeDifferentX = 280;
 		//int Pots.Points;
-		bool Pause = false;
+		
 
 		private void Die()
 		{
 			Pots.Alive = false;
 			timer2.Enabled = false;
 			timer3.Enabled = false;
+			mainBird.Visible = false;
+			mainBird.Enabled = false;
 			button2.Visible = true;
 			button2.Enabled = true;
 			Pots.Points = 0;
@@ -45,11 +59,21 @@ namespace potsGames
 			{
 				timer2.Enabled = false;
 				timer3.Enabled = false;
+				mainBird.Visible = false;
+				mainBird.Enabled = false;
+				FirstPots.Enabled = true;
+				FirstPots.Visible = true;
+				SecondPots.Enabled = true;
+				SecondPots.Visible = true;
 				Pause = true;
 
 			}
 			else
 			{
+				if (GamePerson == 1)
+					FirstPots.Location = FirstSelection;
+				else SecondPots.Location = SecondSelection;
+
 				timer2.Enabled = true;
 				timer3.Enabled = true;
 				Pause = false;
@@ -63,7 +87,8 @@ namespace potsGames
 			timer1.Enabled = true;
 			timer2.Enabled = true;
 			timer3.Enabled = true;
-			Pipes = new ObstaclesMap(Height, Width, PipeWidth, PipeDifferentX, PipeDifferentY);
+		//	Pipes = new ObstaclesMap(Height, Width, PipeWidth, PipeDifferentX, PipeDifferentY);
+			Pipes = new LevelMap(Height, Width, PipeWidth, PipeDifferentX, PipeDifferentY);
 			button2.Visible = false;
 			button2.Enabled = false;
 			Focus();
@@ -82,9 +107,12 @@ namespace potsGames
 					}
 					else
 					{*/
-						Pipes[i].TopX = Pipes[i].TopX - Pots.GameSpeed; // in future make a nomal interface of class
-						Pipes[i].BottomX = Pipes[i].BottomX - Pots.GameSpeed;
-						Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.GameSpeed; // write move method in the map objects
+					//	Pipes[i].TopX = Pipes[i].TopX - Pots.GameSpeed; // in future make a nomal interface of class
+						//Pipes[i].BottomX = Pipes[i].BottomX - Pots.GameSpeed;
+					Pipes.LevelDoors[i].Top.Update(Pots.GameSpeed);
+						Pipes.LevelDoors[i].Bottom.Update(Pots.GameSpeed);
+						Pipes.LevelBonus[i].X = Pipes.LevelBonus[i].X - Pots.GameSpeed; 
+																// write move method in the map objects
 						//Pipes.LevelBoxes[i].X = Pipes.LevelBoxes[i].X - Pots.GameSpeed;
 						Pipes.LevelBoxes[i].Update(Pots.GameSpeed);
 						//SpeedY = Pots.SpeedY;
@@ -103,19 +131,23 @@ namespace potsGames
 			{
 				for (var i = 0; i < Pipes.Count; i++)
 				{
-					if (Pipes[i].TopX < 2 * PipeDifferentX) // attention
-					{
-						CheckForCollision(Pipes[i]);
+					if (Pipes.LevelDoors[i].Top.X < Width) // attention making from person x y
+					{ 
+						CheckForCollision(Pipes.LevelDoors[i].Top);
+						CheckForCollision(Pipes.LevelDoors[i].Bottom);
+						CheckForCollision(Pipes.LevelBoxes[i]);
+						CheckForCollision(Pipes.LevelBonus[i]);
 					}
 				}
-				for (var i = 0; i < Pipes.Count; i++)
-				{
-					CheckForCollision(Pipes.LevelBonus[i]);
-				}
-				for (var i = 0; i < Pipes.Count; i++)
-				{
-					CheckForCollision(Pipes.LevelBoxes[i]);
-				}
+				/*	for (var i = 0; i < Pipes.Count; i++)
+					{
+						CheckForCollision(Pipes.LevelBonus[i]);
+					}
+					for (var i = 0; i < Pipes.Count; i++)
+					{
+						CheckForCollision(Pipes.LevelBoxes[i]);
+					}
+				/*/
 			}
 		}
 
@@ -123,7 +155,7 @@ namespace potsGames
 		{
 			if (Pipes != null)
 			{
-				for (var i = 0; i < Pipes.Count; i++)
+/*				for (var i = 0; i < Pipes.Count; i++)
 				{
 					if (Pipes[i].BottomX < 2 * PipeDifferentX) // attention
 					{
@@ -145,7 +177,7 @@ namespace potsGames
 						e.Graphics.DrawRectangle(new Pen(Brushes.Green, 10), pointZoneIntersection);
 						//
 					}
-				}
+		*/		//}
 				for (var i = 0; i < Pipes.Count; i++)
 				{
 					if (Pipes.LevelBonus[i].X < 2 * PipeDifferentX) // attention
@@ -164,6 +196,26 @@ namespace potsGames
 					if (Pipes.LevelBoxes[i].X < 2 * PipeDifferentX) // attention
 					{
 						var bonus = Pipes.LevelBoxes[i];
+						Rectangle playerLocation = mainBird.Bounds;
+						Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
+						Rectangle intersection = Rectangle.Intersect(playerLocation, bonusCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Yellow, 8), bonusCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Black, 8), intersection);
+					}
+					if (Pipes.LevelDoors[i].Top.X < 2 * PipeDifferentX) // attention
+					{
+						var bonus = Pipes.LevelDoors[i].Top;
+						Rectangle playerLocation = mainBird.Bounds;
+						Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
+						Rectangle intersection = Rectangle.Intersect(playerLocation, bonusCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Yellow, 8), bonusCollisionZone);
+						e.Graphics.DrawRectangle(new Pen(Brushes.Black, 8), intersection);
+					}
+
+
+					if (Pipes.LevelDoors[i].Bottom.X < 2 * PipeDifferentX) // attention
+					{
+						var bonus = Pipes.LevelDoors[i].Bottom;
 						Rectangle playerLocation = mainBird.Bounds;
 						Rectangle bonusCollisionZone = new Rectangle(bonus.X, bonus.Y, bonus.Width, bonus.Height);
 						Rectangle intersection = Rectangle.Intersect(playerLocation, bonusCollisionZone);
@@ -239,7 +291,7 @@ namespace potsGames
 			}
 
 		}
-		public void PointsChecker()
+		/*public void PointsChecker()
 		{
 			if (Pipes != null)
 				for (var i = 0; i < Pipes.Count; i++)
@@ -265,7 +317,7 @@ namespace potsGames
 			}
 			else Pots.inPointZone = false;
 
-		}
+		}*/
 		public bool ObstacleInScreen(ObstacleV2 obstacle)
 		{
 			return (obstacle.X + obstacle.Width > -1) && (obstacle.X < Width + 1) && (obstacle.Y + obstacle.Height > -1) && (obstacle.Y < Height + 1); 
@@ -282,29 +334,25 @@ namespace potsGames
 			{
 				for (var i = 0; i < Pipes.Count; i++)
 				{
-					if (Pots != null && Pots.Alive && Pipes[i] != null && Pipes[i].TopX < Width + 1)
+					if (Pots != null && Pots.Alive && Pipes != null && ObstacleInScreen(Pipes.LevelDoors[i].Top))
 					{
-						Pipes[i].DrawPipe(e);
+						Pipes.LevelDoors[i].Top.DrawTexture(e);
 					}
-				}
-				for (var i = 0; i < Pipes.Count; i++)
-				{
+					if (Pots != null && Pots.Alive && Pipes != null && ObstacleInScreen(Pipes.LevelDoors[i].Bottom))
+					{
+						Pipes.LevelDoors[i].Bottom.DrawTexture(e);
+					}
 					if (Pots != null && Pots.Alive && !Pipes.LevelBonus[i].Taked && ObstacleInScreen(Pipes.LevelBonus[i]))
 					{
 						Pipes.LevelBonus[i].DrawBonus(e);
 					}
-
-
-				}
-
-				for (var i = 0; i < Pipes.Count; i++)
-				{
 					if (Pots != null && Pots.Alive && ObstacleInScreen(Pipes.LevelBoxes[i]))
 					{
 						Pipes.LevelBoxes[i].DrawTexture(e);
 					}
-
 				}
+
+				
 			}
 
 		}

@@ -68,7 +68,7 @@ namespace potsGames
 			{
 
 				case "heart":
-					lives = 1;
+					lives = Rnd.GetRandomNumber(1 , 5);
 					break;
 				case "armor":
 					armor = 1;

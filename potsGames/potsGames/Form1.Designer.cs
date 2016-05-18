@@ -38,32 +38,35 @@
 			this.pointWindow = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
 			this.Coins = new System.Windows.Forms.Label();
+			this.FirstPots = new System.Windows.Forms.Button();
+			this.SecondPots = new System.Windows.Forms.Button();
 			this.LivesPanel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.mainBird)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// this.LivesPanel
+			// LivesPanel
 			// 
 			this.LivesPanel.AutoSize = true;
 			this.LivesPanel.BackColor = System.Drawing.Color.Transparent;
 			this.LivesPanel.Font = new System.Drawing.Font("Comic Sans MS", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
 			this.LivesPanel.ForeColor = System.Drawing.Color.Crimson;
 			this.LivesPanel.Location = new System.Drawing.Point(-2, 8);
-			this.LivesPanel.Name = "this.LivesPanel";
-			this.LivesPanel.Size = new System.Drawing.Size(221, 31);
+			this.LivesPanel.Name = "LivesPanel";
+			this.LivesPanel.Size = new System.Drawing.Size(0, 31);
 			this.LivesPanel.TabIndex = 4;
-			this.LivesPanel.Text = "";
 			// 
 			// mainBird
 			// 
 			this.mainBird.BackColor = System.Drawing.Color.Transparent;
 			this.mainBird.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.mainBird.Enabled = false;
 			this.mainBird.Location = new System.Drawing.Point(25, 157);
 			this.mainBird.Name = "mainBird";
 			this.mainBird.Size = new System.Drawing.Size(69, 72);
 			this.mainBird.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.mainBird.TabIndex = 1;
 			this.mainBird.TabStop = false;
+			this.mainBird.Visible = false;
 			// 
 			// timer1
 			// 
@@ -88,21 +91,22 @@
 			this.pointWindow.ForeColor = System.Drawing.Color.Black;
 			this.pointWindow.Location = new System.Drawing.Point(454, 10);
 			this.pointWindow.Name = "pointWindow";
-			this.pointWindow.Size = new System.Drawing.Size(105, 29);
+			this.pointWindow.Size = new System.Drawing.Size(0, 29);
 			this.pointWindow.TabIndex = 2;
-			this.pointWindow.Text = "";
 			this.pointWindow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// button2
 			// 
+			this.button2.Enabled = false;
 			this.button2.ForeColor = System.Drawing.Color.Maroon;
-			this.button2.Location = new System.Drawing.Point(190, 389);
+			this.button2.Location = new System.Drawing.Point(204, 392);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(210, 54);
 			this.button2.TabIndex = 3;
 			this.button2.Text = "START";
 			this.button2.UseCompatibleTextRendering = true;
 			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Visible = false;
 			this.button2.Click += new System.EventHandler(this.GameStarter);
 			// 
 			// Coins
@@ -113,9 +117,40 @@
 			this.Coins.ForeColor = System.Drawing.Color.Gold;
 			this.Coins.Location = new System.Drawing.Point(221, 8);
 			this.Coins.Name = "Coins";
-			this.Coins.Size = new System.Drawing.Size(170, 30);
+			this.Coins.Size = new System.Drawing.Size(0, 30);
 			this.Coins.TabIndex = 5;
-			this.Coins.Text = "";
+			// 
+			// FirstPots
+			// 
+			this.FirstPots.BackColor = System.Drawing.Color.Transparent;
+			this.FirstPots.BackgroundImage = global::potsGames.Properties.Resources.pots_1_1_protected;
+			this.FirstPots.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.FirstPots.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.FirstPots.ForeColor = System.Drawing.Color.Crimson;
+			this.FirstPots.Location = new System.Drawing.Point(117, 146);
+			this.FirstPots.Name = "FirstPots";
+			this.FirstPots.Size = new System.Drawing.Size(163, 156);
+			this.FirstPots.TabIndex = 6;
+			this.FirstPots.Text = "Select";
+			this.FirstPots.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.FirstPots.UseVisualStyleBackColor = false;
+			this.FirstPots.Click += new System.EventHandler(this.SelectFirstPots);
+			// 
+			// SecondPots
+			// 
+			this.SecondPots.BackColor = System.Drawing.Color.Transparent;
+			this.SecondPots.BackgroundImage = global::potsGames.Properties.Resources.pots_2_1_protected;
+			this.SecondPots.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.SecondPots.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.SecondPots.ForeColor = System.Drawing.Color.Crimson;
+			this.SecondPots.Location = new System.Drawing.Point(348, 146);
+			this.SecondPots.Name = "SecondPots";
+			this.SecondPots.Size = new System.Drawing.Size(154, 156);
+			this.SecondPots.TabIndex = 7;
+			this.SecondPots.Text = "Select";
+			this.SecondPots.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.SecondPots.UseVisualStyleBackColor = false;
+			this.SecondPots.Click += new System.EventHandler(this.SelectSecondPots);
 			// 
 			// GameForm
 			// 
@@ -124,6 +159,8 @@
 			this.BackgroundImage = global::potsGames.Properties.Resources.back;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(625, 486);
+			this.Controls.Add(this.SecondPots);
+			this.Controls.Add(this.FirstPots);
 			this.Controls.Add(this.Coins);
 			this.Controls.Add(this.LivesPanel);
 			this.Controls.Add(this.button2);
@@ -153,6 +190,8 @@
 		private System.Windows.Forms.Label pointWindow;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Label Coins;
+		private System.Windows.Forms.Button FirstPots;
+		private System.Windows.Forms.Button SecondPots;
 		private System.Windows.Forms.Label LivesPanel;
 	}
 }
